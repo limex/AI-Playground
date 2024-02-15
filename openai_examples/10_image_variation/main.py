@@ -1,5 +1,6 @@
+import os
 from openai import OpenAI
-client = OpenAI()
+client = OpenAI(api_key=os.environ.get('OPENAI_API_KEY_DEV'))
 
 response = client.images.create_variation(
     image=open('./bucky.png', 'rb'), # input must be a square PNG image, less than 4mb in size

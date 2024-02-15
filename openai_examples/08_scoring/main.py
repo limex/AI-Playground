@@ -3,7 +3,8 @@ import promptlayer
 
 promptlayer.api_key = os.environ.get('PROMPTLAYER_API_KEY')
 OpenAI = promptlayer.openai.OpenAI
-client = OpenAI()
+openai_api_key_dev = os.environ.get('OPENAI_API_KEY_DEV')
+client = OpenAI(api_key=openai_api_key_dev)
 
 """
 All PromptLayer requests have unique IDs, and these can be optionally returned

@@ -61,6 +61,7 @@ pip-log.txt
 # Python
 *$py.class
 *.py[cod]
+*.whl
 
 # Unit test / coverage reports
 *.cover
@@ -73,3 +74,4 @@ pip-log.txt
 coverage.xml
 htmlcov/
 nosetests.xml
+attrs-23.2.0-py3-none-any.whl

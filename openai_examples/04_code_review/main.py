@@ -1,7 +1,7 @@
 import os
 import openai
 
-openai.api_key = os.getenv('OPENAI_API_KEY')
+openai.api_key = os.getenv('OPENAI_API_KEY_DEV')
 
 with open('./code.py', 'r') as file:
     code_content = file.read()

@@ -1,7 +1,8 @@
 from PyPDF2 import PdfReader
+import os
 from openai import OpenAI
+client = OpenAI(api_key=os.environ.get('OPENAI_API_KEY_DEV'))
 
-client = OpenAI()
 
 def summarize_document(file_path, is_pdf=False):
     """
@@ -16,13 +17,14 @@ def summarize_document(file_path, is_pdf=False):
     else:
         with open(file_path, 'r', encoding='utf-8') as file:
             content = file.read()
-    
+
     if len(content) > 4000:
         summary = summarize_large_content(content)
     else:
         summary = generate_summary(content)
 
     print('Document Summary:\n', summary)
+
 
 def pdf_to_text(pdf_path):
     """
@@ -38,6 +40,7 @@ def pdf_to_text(pdf_path):
     extracted_texts = [page.extract_text() for page in reader.pages]
     return ' '.join(extracted_texts).replace('\n', ' ')
 
+
 def summarize_large_content(content):
     """
     Generates a summary for large content.
@@ -52,6 +55,7 @@ def summarize_large_content(content):
     chunk_summaries = [generate_summary(chunk) for chunk in chunks]
     combined_text = ' '.join(chunk_summaries)
     return generate_summary(combined_text)
+
 
 def split_text_into_chunks(text, chunk_size=4000):
     """
@@ -69,10 +73,11 @@ def split_text_into_chunks(text, chunk_size=4000):
         chunks.append(text[i:i + chunk_size])
     return chunks
 
+
 def generate_summary(text):
     """
     Generates a summary of the provided text using the OpenAI GPT-3.5 Turbo model.
-    
+
     Args:
         text (str): Text to be summarized.
 
@@ -89,6 +94,7 @@ def generate_summary(text):
     )
     summary = response.choices[0].message.content.strip()
     return summary
+
 
 if __name__ == '__main__':
     summarize_document('./woodpecker.txt')

@@ -1,5 +1,7 @@
+import os
 from openai import OpenAI
-client = OpenAI()
+openai_api_key_dev = os.environ.get('OPENAI_API_KEY_DEV')
+client = OpenAI(api_key=openai_api_key_dev)
 
 response = client.images.generate(
   model="dall-e-3",

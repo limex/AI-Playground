@@ -2,7 +2,7 @@ import os
 import openai
 import json
 
-openai.api_key = os.getenv('OPENAI_API_KEY')
+openai.api_key = os.getenv('OPENAI_API_KEY_DEV')
 
 
 # Example dummy function hard coded to return the same weather
@@ -45,7 +45,8 @@ def run():
     ]
 
     # Step 2: send the conversation and available functions to GPT
-    messages = [{"role": "user", "content": "What's the weather like in Boston?"}]
+    messages = [
+        {"role": "user", "content": "What's the weather like in Boston?"}]
     first_response = openai.ChatCompletion.create(
         model="gpt-3.5-turbo-0613",
         messages=messages,
@@ -53,9 +54,9 @@ def run():
         function_call="auto",  # auto is default, but we'll be explicit
     )
 
+    print("First response:")
     print(first_response)
-    print()
-
+    print('-----')
     first_response_message = first_response["choices"][0]["message"]
 
     # Step 3: check if GPT wanted to call a function
@@ -67,7 +68,9 @@ def run():
             "get_current_weather": get_current_weather,
         }
         function_name = first_response_message["function_call"]["name"]
-        function_args = json.loads(first_response_message["function_call"]["arguments"])  # {'location': 'Boston, MA'}
+        # {'location': 'Boston, MA'}
+        function_args = json.loads(
+            first_response_message["function_call"]["arguments"])
         function_to_call = available_functions[function_name]
         function_return_value = function_to_call(
             location=function_args.get("location"),
@@ -93,9 +96,9 @@ def run():
             model="gpt-3.5-turbo-0613",
             messages=messages,
         )
-
+        print("Second response:")
         print(second_response)
-        print()
+        print("-----")
         print(second_response.choices[0].message.content)
 
 
